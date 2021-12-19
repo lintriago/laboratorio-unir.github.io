@@ -58,10 +58,10 @@ function load_process(url, o_contents, o_headers, o_states, o_codes) {
 	request.onreadystatechange = function() {
 		console.log(request)
 		show_request_statuses( request, o_states );
+		show_status_codes( request, o_codes );
 		if (request.status == 200) {
 			show_contents( request, o_contents );
 			show_headers( request, o_headers );
-			show_status_codes( request, o_codes );
 		} 
 		if (request.readyState != 1 && request.status == 0) {
 			document.querySelector("#msg").innerHTML = message_error;
