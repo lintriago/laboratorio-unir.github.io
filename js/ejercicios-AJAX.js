@@ -1,3 +1,4 @@
+// Variables globales a utilizar
 var states_list = ['UNSET', 'OPENED', 'HEADERS_RECEIVED', 'LOADING', 'DONE'];
 var initial_time = 0;
 document.addEventListener('DOMContentLoaded', () => {
@@ -15,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	show_url_itself( url, input_recurso );
 
 	btn_enviar.addEventListener("click", event => {
+		/* EJERCICIOS 2, 3, 4 y 5 */
 		load_process( 
 			input_recurso.value, // url, se espera una API de preferencia
 			output_contenidos, 
@@ -46,8 +48,8 @@ function load_process(url, o_contents, o_headers, o_states, o_codes) {
 	
 	let message_error = `
 		<p style="color: tomato;">Error al comunicarse con la URL ingresada.</p>
-		Por favor, ingrese una URL valida. <br>
-		<strong>Ejemplos</strong><br>
+		Por favor, ingrese una URL válida, que no rechace una petición por errores CORS.<br>
+		<strong>Ejemplos de URL(APIs) válidas:</strong><br>
 		<ul>
 			<li>https://api.frankfurter.app/latest</li>
 			<li>https://mindicador.cl/api/dolar</li>
@@ -75,7 +77,6 @@ function load_process(url, o_contents, o_headers, o_states, o_codes) {
 
 //// Ejercicio 2
 function show_contents(response, output) {
-	// let response_parse = JSON.parse(response);
 	output.innerHTML = response.responseText;
 }
 
@@ -89,7 +90,7 @@ function show_request_statuses(response, output) {
 	let final_time = new Date();
 	let miliseconds = final_time - initial_time;
 
-	output.innerHTML += response.readyState +" - [" + miliseconds + " ms.] " + states_list[response.readyState] + "<br/>";
+	output.innerHTML += `${response.readyState} - [ ${miliseconds} ms.] ${states_list[response.readyState]} <br/>`;
 }
 
 ////////// Ejercicio 5
