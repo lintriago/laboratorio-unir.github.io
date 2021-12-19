@@ -1,6 +1,7 @@
 // Variables globales a utilizar
 var states_list = ['UNSET', 'OPENED', 'HEADERS_RECEIVED', 'LOADING', 'DONE'];
 var initial_time = 0;
+var CORS_reference = "https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS";
 document.addEventListener('DOMContentLoaded', () => {
 	// obtencion de los elementos HTTML para su posterior interaccion
 	let input_recurso = document.querySelector("#recurso");
@@ -16,14 +17,26 @@ document.addEventListener('DOMContentLoaded', () => {
 	show_url_itself( url, input_recurso );
 
 	btn_enviar.addEventListener("click", event => {
-		/* EJERCICIOS 2, 3, 4 y 5 */
-		load_process( 
-			input_recurso.value, // url, se espera una API de preferencia
-			output_contenidos, 
-			output_cabeceras, 
-			output_estados, 
-			output_codigo 
-		);
+		if (input_recurso.value.length > 0) {
+			/* EJERCICIOS 2, 3, 4 y 5 */
+			load_process( 
+				input_recurso.value, // url, se espera una API de preferencia
+				output_contenidos, 
+				output_cabeceras, 
+				output_estados, 
+				output_codigo 
+			);
+		} else {
+			document.querySelector("#msg").innerHTML = `
+				<p style="color: tomato;">Debe ingresar una URL válida.</p>
+				<strong>Ejemplos de URL(APIs) válidas:</strong><br>
+				<ul>
+					<li>https://api.frankfurter.app/latest</li>
+					<li>https://mindicador.cl/api/dolar</li>
+					<li>https://api.chucknorris.io/jokes/random</li>
+				</ul>
+			`;
+		}
 	});
 });
 
@@ -48,7 +61,8 @@ function load_process(url, o_contents, o_headers, o_states, o_codes) {
 	
 	let message_error = `
 		<p style="color: tomato;">Error al comunicarse con la URL ingresada.</p>
-		Por favor, ingrese una URL válida, que no rechace una petición por errores CORS.<br>
+			Por favor, ingrese una URL válida, que no rechace una petición por errores 
+			<a href="${CORS_reference}" target="_blanck">CORS</a>.<br>
 		<strong>Ejemplos de URL(APIs) válidas:</strong><br>
 		<ul>
 			<li>https://api.frankfurter.app/latest</li>
@@ -58,14 +72,13 @@ function load_process(url, o_contents, o_headers, o_states, o_codes) {
 	`;
 
 	request.onreadystatechange = function() {
-		console.log(request)
 		show_request_statuses( request, o_states );
 		show_status_codes( request, o_codes );
 		if (request.status == 200) {
 			show_contents( request, o_contents );
 			show_headers( request, o_headers );
 		} 
-		if (request.readyState != 1 && request.status == 0) {
+		if ((request.readyState != 1 && request.status == 0) || request.status == 404) {
 			document.querySelector("#msg").innerHTML = message_error;
 		}
 	}
