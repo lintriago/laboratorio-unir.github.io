@@ -64,6 +64,8 @@ span {
     background: #FAFAFA;
     padding: 1em;
     white-space: pre;
+
+    overflow: scroll;
 }
 
 #contenidos {
@@ -96,4 +98,8 @@ span {
 #i-js-3,
 #i-js-4 {
     width: 80%;
+}
+
+#cabeceras {
+    margin-bottom: 30px;
 }
