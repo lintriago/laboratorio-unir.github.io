@@ -108,5 +108,5 @@ function show_request_statuses(response, output) {
 
 ////////// Ejercicio 5
 function show_status_codes(response, output) {
-	output.innerHTML += `${response.status} ${response.statusText} <br>`;
+	output.innerHTML += `${response.status} / ${response.statusText} <br>`;
 }
